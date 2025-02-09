@@ -9,20 +9,13 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddessbookTests
 {
-    public class NavigationHelper
+    public class NavigationHelper(ApplicationManager manager, string baseURL) : HelperBase(manager)
     {
-        private IWebDriver driver;
-        private string baseURL;
+        private string baseURL = baseURL;
 
-        public NavigationHelper(IWebDriver driver, string baseURL)
-        {
-
-            this.driver = driver;
-            this.baseURL = baseURL;
-        }
         public void GoToHomePage()
         {
-            driver.Navigate().GoToUrl("http://localhost/addressbook/group.php");
+            driver.Navigate().GoToUrl(baseURL);
         }
 
         public void GoToGroupsPage()
