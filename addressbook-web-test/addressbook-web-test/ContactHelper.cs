@@ -16,7 +16,6 @@ namespace WebAddressbookTests
         {
             InitNewContactCreation();
             FillContactForm(contact);
-            SubmitContactCreation();
             ReturnToMainPage();
             return this;
         }
@@ -35,11 +34,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
             return this;
         }
-        public ContactHelper SubmitContactCreation()
-        {
-            driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
-            return this;
-        }
+
         public ContactHelper ReturnToMainPage()
         {
             driver.FindElement(By.LinkText("home page")).Click();

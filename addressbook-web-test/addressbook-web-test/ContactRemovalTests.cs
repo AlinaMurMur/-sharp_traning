@@ -44,7 +44,6 @@ namespace WebAddessbookTests
         {
             GoToHomePage();
             Login(new AccountData("admin", "secret"));
-            SubmitContactCreation();
             SelectContact();
             RemoveContact();
             ReturnToHomePage();
@@ -65,11 +64,6 @@ namespace WebAddessbookTests
             driver.FindElement(By.Name("selected[]")).Click();
         }
 
-        public void SubmitContactCreation()
-        {
-            driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
-        }
-
         private void Login(AccountData account)
         {
             driver.FindElement(By.Name("user")).Click();
@@ -84,54 +78,6 @@ namespace WebAddessbookTests
         private void GoToHomePage()
         {
             driver.Navigate().GoToUrl(baseURL);
-        }
-
-        private bool IsElementPresent(By by)
-        {
-            try
-            {
-                driver.FindElement(by);
-                return true;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-
-        private bool IsAlertPresent()
-        {
-            try
-            {
-                driver.SwitchTo().Alert();
-                return true;
-            }
-            catch (NoAlertPresentException)
-            {
-                return false;
-            }
-        }
-
-        private string CloseAlertAndGetItsText()
-        {
-            try
-            {
-                IAlert alert = driver.SwitchTo().Alert();
-                string alertText = alert.Text;
-                if (acceptNextAlert)
-                {
-                    alert.Accept();
-                }
-                else
-                {
-                    alert.Dismiss();
-                }
-                return alertText;
-            }
-            finally
-            {
-                acceptNextAlert = true;
-            }
         }
     }
 }
