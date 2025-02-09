@@ -4,15 +4,17 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using WebAddessbookTests;
+
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : TestBase
+    public class ContactModificationTests : TestBase
     {
         [Test]
-        public void ContactRemovalTest()
+        public void ContactModificationTest()
         {
-            app.Contacts.Remove();
+            ContactData newData = new ContactData("Name", "LastName");
+            app.Contacts.Modify(1, newData);
         }
     }
 }

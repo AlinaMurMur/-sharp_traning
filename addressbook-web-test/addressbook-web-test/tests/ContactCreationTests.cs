@@ -18,7 +18,7 @@ namespace WebAddessbookTests
         {
             ContactData contact = new ContactData("Имя", "Фамилия");
             app.Contacts.Create(contact);
-            app.Groups.ReturnToHomePage();
+            //app.Groups.ReturnToHomePage();
         }
 
         [Test]
