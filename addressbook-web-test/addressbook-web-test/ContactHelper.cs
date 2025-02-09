@@ -19,6 +19,14 @@ namespace WebAddressbookTests
             ReturnToMainPage();
             return this;
         }
+
+        public ContactHelper Remove()
+        {
+            SelectContact();
+            RemoveContact();
+
+            return this;
+        }
         public ContactHelper InitNewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -38,6 +46,17 @@ namespace WebAddressbookTests
         public ContactHelper ReturnToMainPage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
+            return this;
+        }
+
+        private ContactHelper SelectContact()
+        {
+            driver.FindElement(By.Name("selected[]")).Click();
+            return this;
+        }
+        private ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
         }
     }
