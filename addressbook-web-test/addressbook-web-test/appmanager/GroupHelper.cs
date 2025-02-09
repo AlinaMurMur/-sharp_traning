@@ -79,6 +79,12 @@ namespace WebAddessbookTests
             driver.FindElement(By.LinkText("Logout")).Click();
             return this;
         }
+
+        public GroupHelper ReturnToHomePage()
+        {
+            driver.FindElement(By.LinkText("Logout")).Click();
+            return this;
+        }
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();

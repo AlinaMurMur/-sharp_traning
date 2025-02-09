@@ -62,7 +62,7 @@ namespace WebAddessbookTests
 
         private void SelectContact()
         {
-            driver.FindElement(By.Id("selected[]")).Click();
+            driver.FindElement(By.Name("selected[]")).Click();
         }
 
         public void SubmitContactCreation()

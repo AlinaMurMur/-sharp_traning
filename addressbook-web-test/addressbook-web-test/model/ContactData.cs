@@ -11,9 +11,10 @@ namespace WebAddessbookTests
         private string firstname;
         private string lastname = "";
 
-        public ContactData(string firstname)
+        public ContactData(string firstname, string lastname)
         {
             this.firstname = firstname;
+            this.lastname = lastname;
         }
         public string Firstname
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using WebAddressbookTests;
 
 namespace WebAddessbookTests
 
@@ -18,6 +19,7 @@ namespace WebAddessbookTests
         protected LoginHelper loginHelper;
         protected NavigationHelper navigator;
         protected GroupHelper groupHelper;
+        private ContactHelper contactHelper;
 
         public ApplicationManager()
         {
@@ -27,6 +29,7 @@ namespace WebAddessbookTests
             loginHelper = new LoginHelper(this);
             navigator = new NavigationHelper(this,baseURL);
             groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
         }
 
 
@@ -68,6 +71,13 @@ namespace WebAddessbookTests
             get
             {
                 return groupHelper;
+            }
+        }
+        public ContactHelper Contacts
+        {
+            get
+            {
+                return contactHelper;
             }
         }
     }
