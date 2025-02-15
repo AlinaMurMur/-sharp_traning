@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace WebAddessbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class GroupRemovalTests : AuthTestBase
     {
 
         [Test]

@@ -7,15 +7,11 @@ using NUnit.Framework;
 
 namespace WebAddessbookTests
 {
-    [SetUpFixture]
-    public class TestSuiteFixture
+    public class AuthTestBase : TestBase
     {
-
-        [OneTimeSetUp]
-        public void InitApplicationManager()
+        [SetUp]
+        public void SetupLogin()
         {
-            ApplicationManager app = ApplicationManager.GetInstance();
-            app.Navigator.GoToHomePage();
             app.Auth.Login(new AccountData("admin", "secret"));
         }
     }

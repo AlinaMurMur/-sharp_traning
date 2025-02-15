@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddessbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class ContactCreationTests : AuthTestBase
     {
 
         [Test]
