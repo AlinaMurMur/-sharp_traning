@@ -26,7 +26,7 @@ namespace WebAddessbookTests
         {
             ContactData contact = new ContactData("", "");
             app.Contacts.Create(contact);
-            app.Groups.ReturnToHomePage();
+           // app.Groups.ReturnToHomePage();
         }
     }
 }
