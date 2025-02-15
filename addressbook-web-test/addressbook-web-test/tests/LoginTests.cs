@@ -28,7 +28,7 @@ namespace WebAddessbookTests
             // prepare
             app.Auth.Logout();
             // action
-            AccountData account = new AccountData("admin", "123456");
+            AccountData account = new AccountData("admin", "12345");
             app.Auth.Login(account);
             // verification
             NUnit.Framework.Assert.IsFalse(app.Auth.IsLoggedIn(account));
