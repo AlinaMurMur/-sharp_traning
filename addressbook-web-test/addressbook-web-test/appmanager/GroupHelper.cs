@@ -82,9 +82,22 @@ namespace WebAddessbookTests
         //}
         public GroupHelper SelectGroup(int index)
         {
+            if (OpenGroupPage())
+            {
+                GroupData group = new GroupData("gr");
+                group.Header = "gr";
+                group.Footer = "gr";
+                Create(group);
+            }
             driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
             return this;
         }
+
+        private bool OpenGroupPage()
+        {
+            return !IsElementPresent(By.Name("selected[]"));
+        }
+
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();

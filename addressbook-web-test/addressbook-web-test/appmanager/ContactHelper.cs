@@ -16,7 +16,7 @@ namespace WebAddressbookTests
         {
             InitNewContactCreation();
             FillContactForm(contact);
-           // ReturnToHomePage();
+            ReturnToHomePage();
             return this;
         }
 
@@ -25,7 +25,7 @@ namespace WebAddressbookTests
             InitContactModification();
             FillContactForm(newData);
             SubmitContactModification();
-            //ReturnToHomePage();
+            ReturnToHomePage();
             return this;
         }
 
@@ -48,17 +48,28 @@ namespace WebAddressbookTests
             return this;
         }
 
-        //public ContactHelper ReturnToHomePage()
-        ///{
-            //driver.FindElement(By.LinkText("home page")).Click();
-            //return this;
-        //}
-
-        private ContactHelper SelectContact()
+        public ContactHelper ReturnToHomePage()
         {
+            driver.FindElement(By.LinkText("home page")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact()
+        {
+            if (OpenContactPage())
+            {
+                ContactData contact = new ContactData("Имя", "Фамилия");
+                Create(contact);
+            }
             driver.FindElement(By.Name("selected[]")).Click();
             return this;
         }
+
+        public bool OpenContactPage()
+        {
+            return !IsElementPresent(By.Name("selected[]"));
+        }
+
         private ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
@@ -66,8 +77,12 @@ namespace WebAddressbookTests
         }
         private ContactHelper InitContactModification()
         {
+            if (OpenContactPage())
+            {
+                ContactData contact = new ContactData("Имя", "Фамилия");
+                Create(contact);
+            }
             driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
-            driver.FindElement(By.XPath("//form[@action='edit.php']")).Click();
             return this;
         }
         private ContactHelper SubmitContactModification()
