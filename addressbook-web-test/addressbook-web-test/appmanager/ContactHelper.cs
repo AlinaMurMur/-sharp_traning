@@ -20,6 +20,12 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper Check()
+        {
+            CheckContacts();
+            return this;
+        }
+
         public ContactHelper Modify(int v, ContactData newData)
         {
             InitContactModification();
@@ -56,12 +62,16 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact()
         {
+            driver.FindElement(By.Name("selected[]")).Click();
+            return this;
+        }
+        public ContactHelper CheckContacts()
+        {
             if (OpenContactPage())
             {
                 ContactData contact = new ContactData("Имя", "Фамилия");
                 Create(contact);
             }
-            driver.FindElement(By.Name("selected[]")).Click();
             return this;
         }
 

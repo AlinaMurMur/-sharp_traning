@@ -14,6 +14,8 @@ namespace WebAddessbookTests
         [Test]
         public void GroupModificationTest()
         {
+            app.Groups.Check();
+
             GroupData newData = new GroupData("zzz");
             newData.Header = "www";
             newData.Footer = "qqq";

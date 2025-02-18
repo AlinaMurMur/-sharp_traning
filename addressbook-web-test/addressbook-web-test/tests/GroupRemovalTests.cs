@@ -13,6 +13,7 @@ namespace WebAddessbookTests
         [Test]
         public void GroupRemovalTest()
         {
+            app.Groups.Check();
             app.Groups.Remove(1);
         }
     }

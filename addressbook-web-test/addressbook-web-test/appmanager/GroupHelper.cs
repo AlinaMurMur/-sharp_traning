@@ -26,6 +26,12 @@ namespace WebAddessbookTests
             ReturnToGroupsPage();
             return this;
         }
+        
+        public GroupHelper Check()
+        {
+            CheckGroups();
+            return this;
+        }
 
         public GroupHelper Modify(int v, GroupData newData)
         {
@@ -71,16 +77,15 @@ namespace WebAddessbookTests
         public GroupHelper ReturnToGroupsPage()
         {
             driver.FindElement(By.LinkText("group page")).Click();
-           //driver.FindElement(By.LinkText("Logout")).Click();
             return this;
         }
 
-        //public GroupHelper ReturnToHomePage()
-      // {
-           // driver.FindElement(By.LinkText("Logout")).Click();
-          //  return this;
-        //}
         public GroupHelper SelectGroup(int index)
+        {
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            return this;
+        }
+        public GroupHelper CheckGroups()
         {
             if (OpenGroupPage())
             {
@@ -89,7 +94,6 @@ namespace WebAddessbookTests
                 group.Footer = "gr";
                 Create(group);
             }
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
             return this;
         }
 
