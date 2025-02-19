@@ -31,5 +31,13 @@ namespace WebAddessbookTests
             }
             driver.FindElement(By.LinkText("groups")).Click();
         }
+        public void GoToContactsPage()
+        {
+            if (driver.Url == baseURL)
+            {
+                return;
+            }
+            driver.FindElement(By.LinkText("home")).Click();
+        }
     }
 }

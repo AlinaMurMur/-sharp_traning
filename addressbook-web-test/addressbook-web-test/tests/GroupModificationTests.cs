@@ -20,7 +20,11 @@ namespace WebAddessbookTests
             newData.Header = "www";
             newData.Footer = "qqq";
 
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
             app.Groups.Modify(1, newData);
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            NUnit.Framework.Assert.AreEqual(oldGroups.Count, newGroups.Count);
         }
     }
 }

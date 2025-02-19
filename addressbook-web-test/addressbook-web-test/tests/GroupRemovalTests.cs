@@ -14,7 +14,12 @@ namespace WebAddessbookTests
         public void GroupRemovalTest()
         {
             app.Groups.Check();
+
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.Remove(1);
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            NUnit.Framework.Assert.AreEqual(oldGroups.Count - 1, newGroups.Count);
         }
     }
 }

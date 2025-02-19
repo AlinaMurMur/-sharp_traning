@@ -17,16 +17,26 @@ namespace WebAddessbookTests
         public void ContactCreationTest()
         {
             ContactData contact = new ContactData("Имя", "Фамилия");
+
+            List<ContactData> oldContacts = app.Contacts.GetContactsList();
+
             app.Contacts.Create(contact);
-            //app.Groups.ReturnToHomePage();
+            List<ContactData> newContacts = app.Contacts.GetContactsList();
+            NUnit.Framework.Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+
         }
 
         [Test]
         public void EmptyContactCreationTest()
         {
             ContactData contact = new ContactData("", "");
+
+            List<ContactData> oldContacts = app.Contacts.GetContactsList();
+
             app.Contacts.Create(contact);
-           // app.Groups.ReturnToHomePage();
+            List<ContactData> newContacts = app.Contacts.GetContactsList();
+            NUnit.Framework.Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+
         }
     }
 }
