@@ -22,7 +22,10 @@ namespace WebAddessbookTests
 
             app.Groups.Create(group);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            NUnit.Framework.Assert.AreEqual(oldGroups.Count +1, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            NUnit.Framework.Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -36,7 +39,10 @@ namespace WebAddessbookTests
 
             app.Groups.Create(group);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            NUnit.Framework.Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            NUnit.Framework.Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

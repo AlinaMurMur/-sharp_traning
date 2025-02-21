@@ -23,8 +23,12 @@ namespace WebAddessbookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             app.Groups.Modify(0, newData);
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            NUnit.Framework.Assert.AreEqual(oldGroups.Count, newGroups.Count);
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            NUnit.Framework.Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
