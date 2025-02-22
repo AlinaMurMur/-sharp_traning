@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -36,8 +37,10 @@ namespace WebAddessbookTests
             ContactData contact = new ContactData("", "");
 
             List<ContactData> oldContacts = app.Contacts.GetContactsList();
-
             app.Contacts.Create(contact);
+
+
+            NUnit.Framework.Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactsCount());
 
             List<ContactData> newContacts = app.Contacts.GetContactsList();
             oldContacts.Add(contact);

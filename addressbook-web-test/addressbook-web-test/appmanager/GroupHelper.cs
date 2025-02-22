@@ -71,6 +71,7 @@ namespace WebAddessbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCach = null;
             return this;
         }
 
@@ -105,12 +106,14 @@ namespace WebAddessbookTests
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            groupCach = null;
             return this;
         }
 
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCach = null;
             return this;
         }
 
@@ -120,17 +123,28 @@ namespace WebAddessbookTests
             return this;
         }
 
+        private List<GroupData> groupCach = null;
+
         public List<GroupData> GetGroupList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements)
+            if (groupCach == null)
             {
-                groups.Add(new GroupData(element.Text));
+                groupCach = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCach.Add(new GroupData(element.Text) { 
+                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
             }
+            return new List<GroupData>(groupCach);
+        }
 
-            return groups;
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
     }
 }

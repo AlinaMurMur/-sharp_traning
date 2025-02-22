@@ -19,6 +19,8 @@ namespace WebAddressbookTests
             List<ContactData> oldContacts = app.Contacts.GetContactsList();
             app.Contacts.Remove();
 
+            NUnit.Framework.Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactsCount());
+
             List<ContactData> newContacts = app.Contacts.GetContactsList();
             oldContacts.RemoveAt(0);
             oldContacts.Sort();

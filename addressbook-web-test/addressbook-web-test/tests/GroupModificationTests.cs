@@ -21,14 +21,27 @@ namespace WebAddessbookTests
             newData.Footer = "qqq";
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            GroupData oldData = oldGroups[0];
 
             app.Groups.Modify(0, newData);
+
+
+            NUnit.Framework.Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             NUnit.Framework.Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id)
+                {
+                    NUnit.Framework.Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
+
         }
     }
 }

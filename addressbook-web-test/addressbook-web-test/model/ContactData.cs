@@ -9,13 +9,10 @@ namespace WebAddessbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname;
-        private string lastname = "";
-
         public ContactData(string lastname, string firstname)
         {
-            this.lastname = lastname;
-            this.firstname = firstname;
+            Lastname = lastname;
+            Firstname = firstname;
         }
         public bool Equals(ContactData other)
         {
@@ -52,27 +49,9 @@ namespace WebAddessbookTests
             }
             return result;
         }
-        public string Firstname
-        {
-            get
-            {
-                return firstname;
-            }
-            set
-            {
-                firstname = value;
-            }
-        }
-        public string Lastname
-        {
-            get
-            {
-                return lastname;
-            }
-            set
-            {
-                lastname = value;
-            }
-        }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Id { get; set; }
+
     }
 }
