@@ -134,9 +134,24 @@ namespace WebAddessbookTests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupCach.Add(new GroupData(element.Text) { 
+                    groupCach.Add(new GroupData(null) { 
                     Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     });
+                }
+
+                string allGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+                string[] parts = allGroupNames.Split('\n');
+                int shift = groupCach.Count - parts.Length;
+                for (int i = 0; i < groupCach.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupCach[i].Name = "";
+                    } else
+                    {
+                        groupCach[i].Name = parts[i-shift].Trim();
+                    }
+
                 }
             }
             return new List<GroupData>(groupCach);
