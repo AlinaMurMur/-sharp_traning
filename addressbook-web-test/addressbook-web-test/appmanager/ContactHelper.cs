@@ -9,6 +9,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using WebAddessbookTests;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.RegularExpressions;
 namespace WebAddressbookTests
 {
     public class ContactHelper : HelperBase
@@ -175,5 +176,14 @@ namespace WebAddressbookTests
                 WorkPhone = workPhone
             };
         }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
+        }
+    
     }
 }
