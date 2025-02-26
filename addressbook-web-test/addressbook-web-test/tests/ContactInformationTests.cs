@@ -22,5 +22,15 @@ namespace WebAddessbookTests
             NUnit.Framework.Assert.AreEqual(fromTable.Address, fromForm.Address);
             NUnit.Framework.Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
         }
+
+        [Test]
+        public void TestContactDetail()
+        {
+            string ContactInfoDetail = app.Contacts.GetContactInformationFromDetails(0);
+            string ContactInfoTable = app.Contacts.GetContactInformationToEditDetails(0);
+
+            NUnit.Framework.Assert.AreEqual(ContactInfoTable, ContactInfoDetail);
+
+        }
     }
 }

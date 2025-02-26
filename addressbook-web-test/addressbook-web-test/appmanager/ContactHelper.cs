@@ -109,6 +109,13 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
+
+        public void InitContactDetailsPage(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+        }
         private ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
@@ -184,6 +191,37 @@ namespace WebAddressbookTests
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
         }
-    
+
+        public string GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactDetailsPage(0);
+
+            string allContactInfo = driver.FindElement(By.CssSelector("div#content")).Text;
+            if (allContactInfo == null || allContactInfo == "")
+            {
+                return "";
+            }
+            else
+            {
+                return allContactInfo.
+                    Replace("\r\n", " ").
+                    Replace("H: ", "").
+                    Replace("M: ", "").
+                    Replace("W: ", "");
+            }
+        }
+        public string GetContactInformationToEditDetails(int index)
+        {
+            String lastName = GetContactInformationFromTable(index).Lastname;
+            String firstName = GetContactInformationFromTable(index).Firstname;
+            String address = GetContactInformationFromTable(index).Address;
+
+            String phones = GetContactInformationFromTable(index).AllPhones;
+
+            string allContactInfoTable = (lastName + " " + firstName + " " + address + " " + phones);
+
+            return allContactInfoTable.Replace("\r\n", " "); ;
+        }
     }
 }
