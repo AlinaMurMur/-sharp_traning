@@ -135,7 +135,7 @@ namespace WebAddressbookTests
                     String collectLastname = element.FindElement(By.XPath("td[2]")).Text;
                     String collectFirstname = element.FindElement(By.XPath("td[3]")).Text;
 
-                    contactCash.Add(new ContactData(collectLastname, collectFirstname));
+                    contactCash.Add(new ContactData(collectFirstname, collectLastname));
                 }
             }
             return new List<ContactData>(contactCash);
@@ -206,32 +206,8 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             InitContactDetailsPage(0);
 
-            string allContactInfo = driver.FindElement(By.CssSelector("div#content")).Text;
-            if (allContactInfo == null || allContactInfo == "")
-            {
-                return "";
-            }
-            else
-            {
-                return allContactInfo.
-                    Replace("\r\n", " ").
-                    Replace("H: ", "").
-                    Replace("M: ", "").
-                    Replace("W: ", "");
-            }
-        }
-        public string GetContactInformationToEditDetails(int index)
-        {
-            String lastName = GetContactInformationFromTable(index).Lastname;
-            String firstName = GetContactInformationFromTable(index).Firstname;
-            String address = GetContactInformationFromTable(index).Address;
-
-            String phones = GetContactInformationFromTable(index).AllPhones;
-            String emails = GetContactInformationFromTable(index).AllEmails;
-
-            string allContactInfoTable = (lastName + " " + firstName + " " + address + " " + phones + "  " + emails);
-
-            return allContactInfoTable.Replace("\r\n", " ");
+            string allInfoToContact = driver.FindElement(By.CssSelector("div#content")).Text;
+            return allInfoToContact.Replace("H: ", "").Replace("M: ", "").Replace("W: ", "").Replace("F: ", "");
         }
     }
 }

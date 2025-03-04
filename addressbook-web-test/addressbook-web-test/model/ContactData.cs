@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -13,11 +14,15 @@ namespace WebAddessbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allInfo;
+        private string name;
+        private string phones;
+        private string emails;
 
-        public ContactData(string lastname, string firstname)
+        public ContactData(string firstname, string lastname)
         {
-            Lastname = lastname;
             Firstname = firstname;
+            Lastname = lastname;
         }
         public bool Equals(ContactData other)
         {
@@ -90,12 +95,100 @@ namespace WebAddessbookTests
                 }
                 else
                 {
-                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
+                    return (CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3)).Trim();
                 }
             }
             set
             {
                 allEmails = value;
+            }
+        }
+
+        public string AllInfo
+        {
+            get
+            {
+                if (allInfo != null)
+                {
+                    return allInfo;
+                }
+                return (Name + "\r\n" + Address + "\r\n" + Phones + "\r\n" + "\r\n" + Emails + "\r\n").Trim();
+            }
+            set
+            {
+                allInfo = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (name != null)
+                {
+                    return name;
+                }
+                return (CleanUpEmptyName(Firstname) + " " + CleanUpEmptyName(Lastname)).Trim();
+            }
+            set
+            {
+                name = value;
+            }
+        }
+
+        public string Phones
+        {
+            get
+            {
+                if (phones != null)
+                {
+                    return phones;
+                }
+                return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone)).Trim();
+            }
+            set
+            {
+                phones = value;
+            }
+        }
+
+        public string Emails
+        {
+            get
+            {
+                if (emails != null)
+                {
+                    return emails;
+                }
+                return (CleanUpEmpty(Email) + CleanUpEmpty(Email2) + CleanUpEmpty(Email3)).Trim();
+            }
+            set
+            {
+                emails = value;
+            }
+        }
+
+        private string CleanUpEmpty(string info)
+        {
+            {
+                if (info == null || info == "")
+                {
+                    return "";
+                }
+                return info + "\r\n";
+            }
+        }
+
+        private string CleanUpEmptyName(string nameInfo)
+        {
+            {
+                {
+                    if (nameInfo == null || nameInfo == "")
+                    {
+                        return "";
+                    }
+                    return nameInfo;
+                }
             }
         }
 
