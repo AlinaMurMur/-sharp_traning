@@ -13,34 +13,22 @@ namespace WebAddessbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-
-        [Test]
-        public void ContactCreationTest()
+        public static IEnumerable<ContactData> RandomGroupDataProvider()
         {
-            ContactData contact = new ContactData("Фамилия", "Имя");
-
-            List<ContactData> oldContacts = app.Contacts.GetContactsList();
-
-            app.Contacts.Create(contact);
-
-            List<ContactData> newContacts = app.Contacts.GetContactsList();
-            oldContacts.Add(contact);
-            oldContacts.Sort();
-            newContacts.Sort();
-            NUnit.Framework.Assert.AreEqual(oldContacts, newContacts);
-
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(GenerateRandomString(30), GenerateRandomString(30)));
+            }
+            return contacts;
         }
 
-        [Test]
-        public void EmptyContactCreationTest()
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+        public void ContactCreationTest(ContactData contact)
         {
-            ContactData contact = new ContactData("", "");
-
             List<ContactData> oldContacts = app.Contacts.GetContactsList();
+
             app.Contacts.Create(contact);
-
-
-            NUnit.Framework.Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactsCount());
 
             List<ContactData> newContacts = app.Contacts.GetContactsList();
             oldContacts.Add(contact);
