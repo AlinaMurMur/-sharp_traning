@@ -112,7 +112,7 @@ namespace WebAddessbookTests
                 {
                     return allInfo;
                 }
-                return (Name + "\r\n" + Address + "\r\n" + Phones + "\r\n" + "\r\n" + Emails + "\r\n").Trim();
+                return (Name + "\r\n" + CleanUpEmpty(Address) + "\r\n" + CleanUpEmpty(Phones) + CleanUpEmpty(Emails)).Trim();
             }
             set
             {
@@ -144,7 +144,7 @@ namespace WebAddessbookTests
                 {
                     return phones;
                 }
-                return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone)).Trim();
+                return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone));
             }
             set
             {
