@@ -35,7 +35,7 @@ namespace WebAddessbookTests
             return contacts;
         }
 
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+        [Test, TestCaseSource("ContactDataFromFile")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactsList();
@@ -47,7 +47,6 @@ namespace WebAddessbookTests
             oldContacts.Sort();
             newContacts.Sort();
             NUnit.Framework.Assert.AreEqual(oldContacts, newContacts);
-
         }
     }
 }
