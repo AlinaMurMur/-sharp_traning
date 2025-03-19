@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -65,6 +66,57 @@ namespace WebAddessbookTests
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
         public string WorkPhone { get; set; }
+        public string HP { 
+            get 
+            {
+                if (HomePhone != "" || HomePhone != null)
+                {
+                    return CleanUpEmpty("H: ") + CleanUpEmpty(HomePhone);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+                set
+            {
+                HomePhone = value;
+            }
+                }
+        public string MP { 
+            get
+            {
+                if (MobilePhone != "" || MobilePhone != null)
+                {
+                    return CleanUpEmpty("M: " + MobilePhone);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+                set
+            {
+                MobilePhone = value;
+            }
+                }
+        public string WP {
+            get
+            {
+                if (WorkPhone != "" || WorkPhone  != null)
+                {
+                    return CleanUpEmpty("W: ") + CleanUpEmpty(WorkPhone);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            set
+            {
+                WorkPhone = value;
+            }
+        }
         public string AllPhones 
         { 
             get
@@ -135,7 +187,6 @@ namespace WebAddessbookTests
                 name = value;
             }
         }
-
         public string Phones
         {
             get
@@ -144,7 +195,7 @@ namespace WebAddessbookTests
                 {
                     return phones;
                 }
-                return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone));
+                return (CleanUpEmpty(HP) + CleanUpEmpty(MP) + CleanUpEmpty(WP));
             }
             set
             {
@@ -152,6 +203,21 @@ namespace WebAddessbookTests
             }
         }
 
+
+        //if (phones != null)
+        //{
+        //    return phones;
+        // } else
+        // {
+        // return (CleanUpEmpty("H: ") + CleanUpEmpty(HomePhone) + CleanUpEmpty("M: ") + CleanUpEmpty(MobilePhone) + CleanUpEmpty("W: ") + CleanUpEmpty(WorkPhone));
+        //}      
+        //}
+        // set
+        //{
+        //  phones = value;
+        // }
+        // }
+        //return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone));
         public string Emails
         {
             get
@@ -175,7 +241,7 @@ namespace WebAddessbookTests
                 {
                     return "";
                 }
-                return info + "\r\n";
+                return info;
             }
         }
 

@@ -23,19 +23,19 @@ namespace WebAddessbookTests
             return contacts;
         }
 
-        public static IEnumerable<ContactData> ContactDataFromFile()
-        {
-            List<ContactData> contacts = new List<ContactData>();
-            string[] lines = File.ReadAllLines(@"contacts.csv");
-            foreach (string l in lines)
-            {
-                string[] parts = l.Split(',');
-                contacts.Add(new ContactData(parts[0], parts[1]));
-            }
-            return contacts;
-        }
+        //public static IEnumerable<ContactData> ContactDataFromFile()
+        //{
+           // List<ContactData> contacts = new List<ContactData>();
+          //  string[] lines = File.ReadAllLines(@"contacts.csv");
+          //  foreach (string l in lines)
+          //  {
+           //     string[] parts = l.Split(',');
+            //    contacts.Add(new ContactData(parts[0], parts[1]));
+           // }
+           // return contacts;
+       // }
 
-        [Test, TestCaseSource("ContactDataFromFile")]
+        [Test, TestCaseSource("RandomGroupDataProvider")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactsList();
