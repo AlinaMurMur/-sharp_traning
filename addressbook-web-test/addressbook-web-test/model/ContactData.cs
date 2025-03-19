@@ -69,9 +69,9 @@ namespace WebAddessbookTests
         public string HP { 
             get 
             {
-                if (HomePhone != "" || HomePhone != null)
+                if (HomePhone != "" && HomePhone != null)
                 {
-                    return CleanUpEmpty("H: ") + CleanUpEmpty(HomePhone);
+                    return "H: " + CleanUpEmpty(HomePhone);
                 }
                 else
                 {
@@ -86,9 +86,9 @@ namespace WebAddessbookTests
         public string MP { 
             get
             {
-                if (MobilePhone != "" || MobilePhone != null)
+                if (MobilePhone != "" && MobilePhone != null)
                 {
-                    return CleanUpEmpty("M: " + MobilePhone);
+                    return "M: " + CleanUpEmpty(MobilePhone);
                 }
                 else
                 {
@@ -103,9 +103,9 @@ namespace WebAddessbookTests
         public string WP {
             get
             {
-                if (WorkPhone != "" || WorkPhone  != null)
+                if (WorkPhone != "" && WorkPhone != null)
                 {
-                    return CleanUpEmpty("W: ") + CleanUpEmpty(WorkPhone);
+                    return "W: " + CleanUpEmpty(WorkPhone);
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace WebAddessbookTests
                 {
                     return phones;
                 }
-                return (CleanUpEmpty(HP) + CleanUpEmpty(MP) + CleanUpEmpty(WP));
+                return (HP + MP + WP);
             }
             set
             {
@@ -241,7 +241,7 @@ namespace WebAddessbookTests
                 {
                     return "";
                 }
-                return info;
+                return info + "\r\n";
             }
         }
 
