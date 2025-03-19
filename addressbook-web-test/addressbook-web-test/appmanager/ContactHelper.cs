@@ -208,7 +208,6 @@ namespace WebAddressbookTests
 
             string allInfoToContact = driver.FindElement(By.CssSelector("div#content")).Text;
             return allInfoToContact;
-            //return allInfoToContact.Replace("H: ", "").Replace("M: ", "").Replace("W: ", "");
         }
     }
 }

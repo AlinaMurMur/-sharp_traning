@@ -202,22 +202,6 @@ namespace WebAddessbookTests
                 phones = value;
             }
         }
-
-
-        //if (phones != null)
-        //{
-        //    return phones;
-        // } else
-        // {
-        // return (CleanUpEmpty("H: ") + CleanUpEmpty(HomePhone) + CleanUpEmpty("M: ") + CleanUpEmpty(MobilePhone) + CleanUpEmpty("W: ") + CleanUpEmpty(WorkPhone));
-        //}      
-        //}
-        // set
-        //{
-        //  phones = value;
-        // }
-        // }
-        //return (CleanUpEmpty(HomePhone) + CleanUpEmpty(MobilePhone) + CleanUpEmpty(WorkPhone));
         public string Emails
         {
             get
