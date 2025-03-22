@@ -8,9 +8,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LinqToDB.Mapping;
 
 namespace WebAddessbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
@@ -63,11 +65,23 @@ namespace WebAddessbookTests
             }
             return result;
         }
+
+        [Column(Name = "firstname")]
         public string Firstname { get; set; }
+
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
         public string HP { 
             get 
@@ -137,8 +151,14 @@ namespace WebAddessbookTests
                 allPhones = value;
             }
         }
+
+        [Column(Name = "email")]
         public string Email { get; set; }
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
         public string AllEmails
         {
@@ -254,6 +274,7 @@ namespace WebAddessbookTests
             return Regex.Replace(phone, "[ -()]", "")  + "\r\n";
         }
 
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
     }
