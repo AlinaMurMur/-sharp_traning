@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAddessbookTests
 {
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
 
         [Test]
@@ -20,15 +20,15 @@ namespace WebAddessbookTests
             newData.Header = "www";
             newData.Footer = "qqq";
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData = oldGroups[0];
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeModify = oldGroups[0];
 
-            app.Groups.Modify(0, newData);
+            app.Groups.Modify(toBeModify, newData);
 
 
             NUnit.Framework.Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
@@ -36,7 +36,7 @@ namespace WebAddessbookTests
 
             foreach (GroupData group in newGroups)
             {
-                if (group.Id == oldData.Id)
+                if (group.Id == toBeModify.Id)
                 {
                     NUnit.Framework.Assert.AreEqual(newData.Name, group.Name);
                 }

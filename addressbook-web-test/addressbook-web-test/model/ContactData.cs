@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LinqToDB.Mapping;
+using WebAddressbookTests;
 
 namespace WebAddessbookTests
 {
@@ -277,5 +278,12 @@ namespace WebAddessbookTests
         [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Contacts select g).ToList();
+            }
+        }
     }
 }
