@@ -20,6 +20,9 @@ namespace WebAddessbookTests
         private string phones;
         private string emails;
 
+        public ContactData()
+        {
+        }
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;

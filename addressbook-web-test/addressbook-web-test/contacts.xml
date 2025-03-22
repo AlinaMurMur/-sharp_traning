@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactData>
+    <Firstname>%</Firstname>
+    <Lastname>9</Lastname>
+    <HP />
+    <MP />
+    <WP />
+    <AllPhones />
+    <AllEmails />
+    <AllInfo>% 9</AllInfo>
+    <Name>% 9</Name>
+    <Phones />
+    <Emails />
+  </ContactData>
+  <ContactData>
+    <Firstname>B</Firstname>
+    <Lastname>_</Lastname>
+    <HP />
+    <MP />
+    <WP />
+    <AllPhones />
+    <AllEmails />
+    <AllInfo>B _</AllInfo>
+    <Name>B _</Name>
+    <Phones />
+    <Emails />
+  </ContactData>
+</ArrayOfContactData>

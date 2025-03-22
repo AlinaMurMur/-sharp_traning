@@ -54,6 +54,79 @@ namespace addressbook_test_data_generators
                 }
                 writer.Close();
             }
+
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < count; i++)
+            {
+                contacts.Add(new ContactData(TestBase.GenerateRandomString(10), TestBase.GenerateRandomString(10)));
+            }
+            if (format == "excel")
+            {
+                writeContactsToExcelFile(contacts, filename);
+            }
+            else
+            {
+                StreamWriter writerContact = new StreamWriter(filename);
+                if (format == "csv")
+                {
+                    writeContactsToCsvFile(contacts, writerContact);
+                }
+                else if (format == "xml")
+                {
+                    writeContactsToXmlFile(contacts, writerContact);
+                }
+                else if (format == "json")
+                {
+                    WriteContactsToJsonFile(contacts, writerContact);
+                }
+                else
+                {
+                    System.Console.Out.Write("Unrecognized format " + format);
+                }
+                writerContact.Close();
+            }
+        }
+
+        static void WriteContactsToJsonFile(List<ContactData> contacts, StreamWriter writerContact)
+        {
+            writerContact.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));
+        }
+
+        static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writerContact)
+        {
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writerContact, contacts);
+        }
+
+        static void writeContactsToCsvFile(List<ContactData> contacts, StreamWriter writerContact)
+        {
+            foreach (ContactData contact in contacts)
+            {
+                writerContact.WriteLine(String.Format("${0},${1}",
+                    contact.Firstname, contact.Lastname));
+            }
+        }
+
+        static void writeContactsToExcelFile(List<ContactData> contacts, string filename)
+        {
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+            Excel.Workbook wb = app.Workbooks.Add();
+            Excel.Worksheet sheet = wb.ActiveSheet();
+
+            int row = 1;
+            foreach (ContactData contact in contacts)
+            {
+                sheet.Cells[row, 1] = contact.Firstname;
+                sheet.Cells[row, 2] = contact.Lastname;
+                row++;
+            }
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filename);
+            File.Delete(fullPath);
+            wb.SaveAs(fullPath);
+
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
         }
 
         static void writegroupsToExcelFile(List<GroupData> groups, string filename)
