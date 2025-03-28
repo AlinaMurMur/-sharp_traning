@@ -84,6 +84,9 @@ namespace WebAddessbookTests
 
         [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
         public string HP { 
             get 
             {
@@ -282,7 +285,25 @@ namespace WebAddessbookTests
         {
             using (AddressBookDB db = new AddressBookDB())
             {
-                return (from g in db.Contacts select g).ToList();
+                return (from c in db.Contacts
+                        //.Where(x => x.Deprecated == "0000-00-00 00:00:00")
+                        select c).ToList();
+            }
+        }
+
+        public static ContactData GetLastContact()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return db.Contacts
+                 .OrderByDescending(c => c.Id)
+                 .Select(c => new ContactData
+                 {
+                     Id = c.Id,
+                     Firstname = c.Firstname,
+                     Lastname = c.Lastname
+                 })
+                 .First();
             }
         }
     }
