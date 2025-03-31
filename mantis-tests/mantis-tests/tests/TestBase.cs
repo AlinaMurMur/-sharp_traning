@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using NUnit.Framework;
 
-namespace WebAddessbookTests
+namespace mantis_tests
 {
     public class TestBase
     {
@@ -9,7 +9,7 @@ namespace WebAddessbookTests
 
         protected ApplicationManager app;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();

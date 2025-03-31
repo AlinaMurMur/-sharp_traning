@@ -7,33 +7,27 @@ using System.Threading;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using WebAddressbookTests;
 
-namespace WebAddessbookTests
+namespace mantis_tests
 
 {
     public class ApplicationManager
     {
         protected IWebDriver driver;
         protected string baseURL;
+        public RegistrationHelper Registration { get; set; }
 
-        protected LoginHelper loginHelper;
-        protected NavigationHelper navigator;
-        protected GroupHelper groupHelper;
-        private ContactHelper contactHelper;
+        public FtpHelper Ftp { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        private ApplicationManager()
+        public ApplicationManager()
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            baseURL = "http://localhost/addressbook/"; 
-
-            loginHelper = new LoginHelper(this);
-            navigator = new NavigationHelper(this,baseURL);
-            groupHelper = new GroupHelper(this);
-            contactHelper = new ContactHelper(this);
+            baseURL = "http://localhost/mantisbt-1.3.20/login_page.php";
+            Registration = new RegistrationHelper(this);
+            Ftp = new FtpHelper(this);
         }
 
         ~ApplicationManager()
@@ -53,7 +47,7 @@ namespace WebAddessbookTests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.Navigator.GoToHomePage();
+                newInstance.driver.Url = "http://localhost/mantisbt-1.3.20/login_page.php";
                 app.Value = newInstance;
             }
             return app.Value;
@@ -64,35 +58,6 @@ namespace WebAddessbookTests
             get
             {
                 return driver;
-            }
-        }
-
-        public LoginHelper Auth
-        {
-            get
-            {
-                return loginHelper;
-            }
-        }
-        public NavigationHelper Navigator
-        {
-            get
-            {
-                return navigator;
-            }
-        }
-        public GroupHelper Groups
-        {
-            get
-            {
-                return groupHelper;
-            }
-        }
-        public ContactHelper Contacts
-        {
-            get
-            {
-                return contactHelper;
             }
         }
     }

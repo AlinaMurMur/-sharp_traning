@@ -7,7 +7,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace WebAddessbookTests
+namespace mantis_tests
 {
     public class HelperBase
     {
