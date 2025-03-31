@@ -15,6 +15,9 @@ namespace mantis_tests
     {
         protected IWebDriver driver;
         protected string baseURL;
+        protected LoginHelper loginHelper;
+        protected ProjectManagementHelper projectManagementHelper;
+        protected NavigationHelper navigator;
         public RegistrationHelper Registration { get; set; }
 
         public FtpHelper Ftp { get; set; }
@@ -26,8 +29,14 @@ namespace mantis_tests
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             baseURL = "http://localhost/mantisbt-1.3.20/login_page.php";
+            loginHelper = new LoginHelper(this);
+            projectManagementHelper = new ProjectManagementHelper(this);
+            navigator = new NavigationHelper(this, baseURL);
+
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
+            James = new JamesHelper(this);
+            Mail = new MailHelper(this);
         }
 
         ~ApplicationManager()
@@ -47,7 +56,7 @@ namespace mantis_tests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-1.3.20/login_page.php";
+                newInstance.driver.Url = "http://localhost/mantisbt-1.3.20";
                 app.Value = newInstance;
             }
             return app.Value;
@@ -60,5 +69,29 @@ namespace mantis_tests
                 return driver;
             }
         }
+        public LoginHelper Auth
+        {
+            get
+            {
+                return loginHelper;
+            }
+        }
+        public NavigationHelper Navigator
+        {
+            get
+            {
+                return navigator;
+            }
+        }
+
+        public ProjectManagementHelper Projects
+        {
+            get
+            {
+                return projectManagementHelper;
+            }
+        }
+        public JamesHelper James { get; set; }
+        public MailHelper Mail { get; set; }
     }
 }
