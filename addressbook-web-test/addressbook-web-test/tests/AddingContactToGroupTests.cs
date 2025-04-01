@@ -12,6 +12,9 @@ namespace WebAddessbookTests
         [Test]
         public void TestAddingContactToGroup()
         {
+            app.Contacts.Check();
+            app.Groups.Check();
+            app.Contacts.CheckContactsInNoneGroup();
 
             GroupData group = GroupData.GetAll()[0];
             List<ContactData> oldList = group.GetContacts();

@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LinqToDB.Mapping;
-using WebAddressbookTests;
 
 namespace WebAddessbookTests
 {

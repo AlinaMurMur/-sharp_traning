@@ -10,8 +10,9 @@ using OpenQA.Selenium.Support.UI;
 using WebAddessbookTests;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
+using WebAddressbookTests;
 
-namespace WebAddressbookTests
+namespace WebAddessbookTests
 {
     public class ContactHelper : HelperBase
     {
@@ -292,6 +293,39 @@ namespace WebAddressbookTests
         private void SelectGroupToRemoval(string name)
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
+        public void CheckContactsInNoneGroup()
+        {
+            manager.Navigator.GoToHomePage();
+            ShowContactsInNoneGroups();
+            int contacts = GetContactsCount();
+            if (contacts == 0)
+            {
+                ContactData newContact = new ContactData("aa", "bb");
+                Create(newContact);
+            }
+        }
+
+        public void ShowContactsInNoneGroups()
+        {
+            manager.Navigator.GoToHomePage();
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[none]");
+        }
+
+        public void AddAnyContactToAnyGroup()
+        {
+            int counts = GroupContactRelation.GetAll().Count;
+            if (counts == 0)
+            {
+                GroupData group = GroupData.GetAll()[0];
+                List<ContactData> oldList = group.GetContacts();
+
+                ContactData contact = ContactData.GetAll().Except(oldList).First();
+
+                AddContactToGroup(contact, group);
+            }
+            return;
         }
     }
 }

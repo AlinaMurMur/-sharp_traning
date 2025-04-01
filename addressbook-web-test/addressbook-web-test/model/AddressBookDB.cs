@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinqToDB;
-using WebAddessbookTests;
 
-namespace WebAddressbookTests
+namespace WebAddessbookTests
 {
     public class AddressBookDB : LinqToDB.Data.DataConnection
     {
