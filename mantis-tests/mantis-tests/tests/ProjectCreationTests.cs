@@ -15,7 +15,7 @@ namespace mantis_tests
         [Test]
         public void ProjectCreationTest()
         {
-            ProjectData project = new ProjectData("ПроектAlina");
+            ProjectData project = new ProjectData("Проект");
             app.Projects.Create(project);
         }
     }
