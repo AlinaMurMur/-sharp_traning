@@ -17,7 +17,6 @@ namespace mantis_tests
             ProjectCreation();
             FillProjectForm(project);
             SubmitProjectCreation();
-            //ReturnPageProjectManagement();
             return this;
         }
         private ProjectManagementHelper CheckNameProject(ProjectData project)
@@ -48,7 +47,7 @@ namespace mantis_tests
         public ProjectManagementHelper Remove(int v)
         {
             OpenPageProjectManagement();
-            //CheckProjects();
+            CheckProjects();
             SelectProject(v);
             RemoveProject();
             SubmitRemoveProject();
@@ -57,13 +56,13 @@ namespace mantis_tests
 
         private ProjectManagementHelper OpenPageProjectManagement()
         {
-            driver.FindElement(By.LinkText("управление")).Click();
-            driver.FindElement(By.LinkText("Управление проектами")).Click();
+            driver.FindElement(By.LinkText("Управление")).Click();
+            driver.FindElement(By.LinkText("Проекты")).Click();
             return this;
         }
         private ProjectManagementHelper ProjectCreation()
         {
-            driver.FindElement(By.XPath("//input[@value='создать новый проект']")).Click();
+            driver.FindElement(By.XPath("//button[@type='submit']")).Click();
             return this;
         }
 
@@ -79,34 +78,38 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Добавить проект']")).Click();
             return this;
         }
-      //  private ProjectManagementHelper ReturnPageProjectManagement()
-       // {
-        //    driver.FindElement(By.LinkText("Продолжить")).Click();
-        //    return this;
-       // }
-        //private ProjectManagementHelper CheckProjects()
-       // {
-         //   if (OpenProjectList())
-         //   {
-          //      ProjectData project = new ProjectData("Новый проект");
-          //      Create(project);
-          //  }
-          //  return this;
-       // }
-       // private bool OpenProjectList()
-       // {
-       //      return !IsElementPresent(By.XPath("//div[@id='form-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr"));
-            //return !IsElementPresent(By.LinkText("Проект"));
-       // }
 
+        public void APICreate(AccountData account, ProjectData project)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData projectName = new Mantis.ProjectData();
+            client.mc_project_addAsync(account.Name, account.Password, projectName);
+        }
+
+        private ProjectManagementHelper CheckProjects()
+        {
+            if (OpenProjectList())
+            {
+                AccountData account = new AccountData("administrator", "root");
+                ProjectData project = new ProjectData("Новый проект");
+                APICreate(account, project);
+            }
+            return this;
+        }
+
+        private bool OpenProjectList()
+        {
+            return !IsElementPresent(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr"));
+        }
         private ProjectManagementHelper SelectProject(int index)
         {
-            driver.Navigate().GoToUrl("http://localhost/mantisbt-1.3.20/manage_proj_edit_page.php?project_id=" + index + "");
+            driver.FindElement(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[" + index + "]/td/a")).Click();
             return this;
         }
         private ProjectManagementHelper RemoveProject()
         {
-            driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
+            driver.FindElement(By.XPath("//form[@id='manage-proj-update-form']/div/div[3]/button[2]")).Click();
+            //driver.FindElement(By.XPath("//button[@value='Удалить проект']")).Click();
             return this;
         }
         private ProjectManagementHelper SubmitRemoveProject()

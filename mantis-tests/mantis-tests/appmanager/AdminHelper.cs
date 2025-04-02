@@ -23,7 +23,7 @@ namespace mantis_tests
             List<AccountData> accounts = new List<AccountData>();
 
             IWebDriver driver = OpenAppAndLogin();
-            driver.Url = baseURL + "/manage_user_page.php";
+            driver.Url = baseURL;
             IList<IWebElement> rows = driver.FindElements(By.CssSelector("//table/tr"));
             foreach (IWebElement row in rows)
             {
@@ -55,7 +55,7 @@ namespace mantis_tests
             driver.Url = baseURL + "/login_page.php";
             driver.FindElement(By.Name("username")).SendKeys("administrator");
             driver.FindElement(By.Name("password")).SendKeys("root");
-            driver.FindElement(By.CssSelector("input.button")).Click();
+            driver.FindElement(By.XPath("//input[@value='Войти']")).Click();
             return driver;
         }
     }

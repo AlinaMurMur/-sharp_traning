@@ -26,22 +26,21 @@ namespace mantis_tests
 
         private void OpenMainPage()
         {
-            manager.Driver.Url = "http://localhost/mantisbt-1.3.20/login_page.php";
+            manager.Driver.Url = "http://localhost/mantisbt-2.26.4/login_page.php";
         }
         private void OpenRegistrationForm()
         {
-            driver.FindElements(By.LinkText("зарегистрировать новую учетную запись"))[0].Click();
+            driver.FindElement(By.CssSelector("a.back-to-login-link.pull-left")).Click();
         }
-
-        private void SubmitRegistration()
-        {
-            driver.FindElement(By.CssSelector("input.button")).Click();
-        }
-
         private void FiilRegistrationForm(AccountData account)
         {
             driver.FindElement(By.Name("username")).SendKeys(account.Name);
             driver.FindElement(By.Name("email")).SendKeys(account.Email);
+        }
+
+        private void SubmitRegistration()
+        {
+            driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
         }
         private string GetConfirmationUrl(AccountData account)
         {

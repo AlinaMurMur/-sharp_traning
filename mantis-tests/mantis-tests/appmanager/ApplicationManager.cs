@@ -18,9 +18,6 @@ namespace mantis_tests
         protected LoginHelper loginHelper;
         protected ProjectManagementHelper projectManagementHelper;
         protected NavigationHelper navigator;
-        public RegistrationHelper Registration { get; set; }
-
-        public FtpHelper Ftp { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
@@ -28,7 +25,7 @@ namespace mantis_tests
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            baseURL = "http://localhost/mantisbt-1.3.20";
+            baseURL = "http://localhost/mantisbt-2.26.4";
             loginHelper = new LoginHelper(this);
             projectManagementHelper = new ProjectManagementHelper(this);
             navigator = new NavigationHelper(this, baseURL);
@@ -38,6 +35,7 @@ namespace mantis_tests
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
             Admin = new AdminHelper(this, baseURL);
+            API = new APIHelper(this);
         }
 
         ~ApplicationManager()
@@ -93,7 +91,10 @@ namespace mantis_tests
             }
         }
         public JamesHelper James { get; set; }
+        public RegistrationHelper Registration { get; set; }
+        public FtpHelper Ftp { get; set; }
         public MailHelper Mail { get; set; }
         public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
     }
 }
