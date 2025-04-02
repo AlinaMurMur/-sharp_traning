@@ -28,7 +28,7 @@ namespace mantis_tests
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            baseURL = "http://localhost/mantisbt-1.3.20/login_page.php";
+            baseURL = "http://localhost/mantisbt-1.3.20";
             loginHelper = new LoginHelper(this);
             projectManagementHelper = new ProjectManagementHelper(this);
             navigator = new NavigationHelper(this, baseURL);
@@ -37,6 +37,7 @@ namespace mantis_tests
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
+            Admin = new AdminHelper(this, baseURL);
         }
 
         ~ApplicationManager()
@@ -56,7 +57,7 @@ namespace mantis_tests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-1.3.20";
+                newInstance.driver.Url = newInstance.baseURL + "/login_page.php";
                 app.Value = newInstance;
             }
             return app.Value;
@@ -93,5 +94,6 @@ namespace mantis_tests
         }
         public JamesHelper James { get; set; }
         public MailHelper Mail { get; set; }
+        public AdminHelper Admin { get; set; }
     }
 }
