@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mantis;
 using OpenQA.Selenium;
 
 namespace mantis_tests
@@ -82,27 +84,32 @@ namespace mantis_tests
         public void APICreate(AccountData account, ProjectData project)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-            Mantis.ProjectData projectName = new Mantis.ProjectData();
-            client.mc_project_addAsync(account.Name, account.Password, projectName);
+            Mantis.ProjectData projectData = new Mantis.ProjectData();
+            projectData.name = project.Name;
+            client.mc_project_addAsync(account.Name, account.Password, projectData);
         }
 
         private ProjectManagementHelper CheckProjects()
         {
-            if (OpenProjectList())
-            {
-                AccountData account = new AccountData("administrator", "root");
-                ProjectData project = new ProjectData("Новый проект");
-                APICreate(account, project);
-            }
+            OpenProjectList();
+            driver.FindElement(By.LinkText("Проекты")).Click();
             return this;
         }
 
-        private bool OpenProjectList()
+        private void OpenProjectList()
         {
-            return !IsElementPresent(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr"));
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            var projects = client.mc_projects_get_user_accessibleAsync("administrator", "root");
+            if (projects == null)
+            {
+                AccountData accountName = new AccountData("administrator", "root");
+                ProjectData project = new ProjectData("Новый проект");
+                APICreate(accountName, project);
+            }
         }
         private ProjectManagementHelper SelectProject(int index)
         {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             driver.FindElement(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[" + index + "]/td/a")).Click();
             return this;
         }

@@ -29,6 +29,7 @@
     <PackageReference Include="Selenium.Support" Version="3.14.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
     <PackageReference Include="SimpleBrowser.WebDriver" Version="0.5.43" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Net.FtpClient" Version="1.0.5281.14359" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
     <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
