@@ -12,11 +12,15 @@ namespace mantis_tests
     [TestFixture]
     public class ProjectCreationTests : AuthTestBase
     {
+
         [Test]
         public void ProjectCreationTest()
         {
-            ProjectData project = new ProjectData("Проект");
-            app.Projects.Create(project);
+            ProjectData Project = new ProjectData(GenerateRandomString(9));
+
+            app.API.GetProjectsByApi();
+
+            app.Projects.Create(Project);
         }
     }
 }

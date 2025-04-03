@@ -23,5 +23,21 @@ namespace mantis_tests
             issue.project.id = project.Id;
             client.mc_issue_addAsync(account.Name, account.Password, issue);
         }
+        public void GetProjectsByApi()
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+             client.mc_projects_get_user_accessibleAsync("administrator", "root");
+
+        }
+        public void CreateProjectsByApi()
+       {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+
+            Mantis.ProjectData project = new Mantis.ProjectData();
+            project.name = GeneratedRandAzNub(5);
+            project.description = GeneratedRandAzNub(8);
+
+            client.mc_project_addAsync("administrator", "root", project);
+        }
     }
 }

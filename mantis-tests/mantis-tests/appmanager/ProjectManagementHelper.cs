@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Mantis;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System.Reflection;
 
 namespace mantis_tests
 {
@@ -15,48 +17,12 @@ namespace mantis_tests
         public ProjectManagementHelper Create(ProjectData project)
         {
             OpenPageProjectManagement();
-            CheckNameProject(project);
             ProjectCreation();
             FillProjectForm(project);
             SubmitProjectCreation();
             return this;
         }
-        private ProjectManagementHelper CheckNameProject(ProjectData project)
-        {
-            if (OpenNameList())
-            {
-                if (OpenNameList(project))
-                {
-                    ProjectData projectNew = new ProjectData("Новый проект");
-                    Create(projectNew);
-                }
-            }
-            return this;
-        }
-        private bool OpenNameList()
-        {
-            return IsElementPresent(By.XPath("//div[@id='form-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr"));
-        }
-        private bool OpenNameList(ProjectData project)
-        {
-            return OpenNameList() && GetProjectName() == project.Name;
-        }
-        private string GetProjectName()
-        {
-            string text = driver.FindElement(By.XPath("//div[@id='form-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr/td/a")).Text;
-            return text;
-        }
-        public ProjectManagementHelper Remove(int v)
-        {
-            OpenPageProjectManagement();
-            CheckProjects();
-            SelectProject(v);
-            RemoveProject();
-            SubmitRemoveProject();
-            return this;
-        }
-
-        private ProjectManagementHelper OpenPageProjectManagement()
+        public ProjectManagementHelper OpenPageProjectManagement()
         {
             driver.FindElement(By.LinkText("Управление")).Click();
             driver.FindElement(By.LinkText("Проекты")).Click();
@@ -67,7 +33,6 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//button[@type='submit']")).Click();
             return this;
         }
-
         private ProjectManagementHelper FillProjectForm(ProjectData project)
         {
             driver.FindElement(By.Id("project-name")).Click();
@@ -81,49 +46,71 @@ namespace mantis_tests
             return this;
         }
 
-        public void APICreate(AccountData account, ProjectData project)
+        public void ViewListInProject()
         {
-            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-            Mantis.ProjectData projectData = new Mantis.ProjectData();
-            projectData.name = project.Name;
-            client.mc_project_addAsync(account.Name, account.Password, projectData);
-        }
+            OpenPageProjectManagement();
+            var projectsTable = driver.FindElement(
+                By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']"));
+            var projectRows = projectsTable.FindElements(By.XPath(".//tbody/tr"));
 
-        private ProjectManagementHelper CheckProjects()
-        {
-            OpenProjectList();
-            driver.FindElement(By.LinkText("Проекты")).Click();
-            return this;
-        }
-
-        private void OpenProjectList()
-        {
-            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-            var projects = client.mc_projects_get_user_accessibleAsync("administrator", "root");
-            if (projects == null)
+            if (projectRows.Count == 0)
             {
-                AccountData accountName = new AccountData("administrator", "root");
-                ProjectData project = new ProjectData("Новый проект");
-                APICreate(accountName, project);
+                ProjectData createdProjectToRemove = new ProjectData("Добавляем проект");
+                Create(createdProjectToRemove);
             }
         }
-        private ProjectManagementHelper SelectProject(int index)
+
+        public ProjectData TakeProject()
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            WaitWhileProjectTableAppear();
+            IWebElement firstRow = driver.FindElement(
+                By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr[1]")
+            );
+            try
+            {
+                string id = firstRow.FindElement(By.XPath("./td/a")).GetAttribute("href").Split('=')[1];
+                string name = firstRow.FindElement(By.XPath("./td/a")).Text;
+                string description = firstRow.FindElement(By.XPath("./td[5]")).Text;
+
+                ProjectData takedFirstProject = new ProjectData(name)
+                {
+                    Description = description,
+                    Id = id
+                };
+                return takedFirstProject;
+            }
+            catch (NoSuchElementException ex)
+            {
+                return null;
+            }
+        }
+        public void RemoveProject(int index)
+        {
             driver.FindElement(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[" + index + "]/td/a")).Click();
-            return this;
-        }
-        private ProjectManagementHelper RemoveProject()
-        {
             driver.FindElement(By.XPath("//form[@id='manage-proj-update-form']/div/div[3]/button[2]")).Click();
-            //driver.FindElement(By.XPath("//button[@value='Удалить проект']")).Click();
-            return this;
-        }
-        private ProjectManagementHelper SubmitRemoveProject()
-        {
             driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
-            return this;
+        }
+        public List<ProjectData> GetProjectList()
+        {
+            if (projectCash == null)
+            {
+                projectCash = new List<ProjectData>();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr"));
+                foreach (IWebElement element in elements)
+                {
+                    String collectName = element.FindElement(By.XPath("td[1]/a")).Text;
+
+                    projectCash.Add(new ProjectData(collectName));
+                }
+            }
+            return new List<ProjectData>(projectCash);
         }
 
+        private List<ProjectData> projectCash = null;
+        private void WaitWhileProjectTableAppear()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            wait.Until(d => d.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']")));
+        }
     }
 }
