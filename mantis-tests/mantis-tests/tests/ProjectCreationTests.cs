@@ -12,15 +12,46 @@ namespace mantis_tests
     [TestFixture]
     public class ProjectCreationTests : AuthTestBase
     {
-
         [Test]
         public void ProjectCreationTest()
         {
-            ProjectData Project = new ProjectData(GenerateRandomString(9));
+            ProjectData createdProject = new ProjectData(GenerateRandomString(9));
 
-            app.API.GetProjectsByApi();
+            List<ProjectData> beforeCreatejectsList = app.Projects.GetAllProjecstList();
 
-            app.Projects.Create(Project);
+            app.Projects.Create(createdProject);
+
+            app.Projects.OpenPageProjectManagement();
+
+            List<ProjectData> afterCreateProjectsList = app.Projects.GetAllProjecstList();
+            beforeCreatejectsList.Add(createdProject);
+
+            beforeCreatejectsList.Sort();
+            afterCreateProjectsList.Sort();
+            NUnit.Framework.Assert.AreEqual(beforeCreatejectsList, afterCreateProjectsList);
+            // ProjectData Project = new ProjectData(GenerateRandomString(9));
+
+            //app.API.GetProjectsByApi();
+
+            // app.Projects.Create(Project);
+        }
+
+        [Test]
+        public async Task ProjectCreationTestAPI()
+        {
+            ProjectData project = new ProjectData(GenerateRandomString(9));
+
+            List<ProjectData> oldProjects = await app.Projects.GetProjectListAPI();
+
+            app.Projects.Create(project);
+
+            NUnit.Framework.Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectCount());
+
+            List<ProjectData> newProjects = await app.Projects.GetProjectListAPI();
+            oldProjects.Add(project);
+            oldProjects.Sort();
+            newProjects.Sort();
+            NUnit.Framework.Assert.AreEqual(oldProjects, newProjects);
         }
     }
 }

@@ -59,10 +59,44 @@ namespace mantis_tests
                 Create(createdProjectToRemove);
             }
         }
+        public List<ProjectData> GetAllProjecstList()
+        {
+            if (projectCash == null)
+            {
+                projectCash = new List<ProjectData>();
+
+               // WaitWhileProjectTableAppear();
+
+                ICollection<IWebElement> rows = driver.FindElements(
+                    By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr")
+                );
+                foreach (IWebElement row in rows)
+                {
+                    try
+                    {
+                        string id = row.FindElement(By.XPath("./td/a")).GetAttribute("href").Split('=')[1];
+                        string name = row.FindElement(By.XPath("./td/a")).Text;
+                        string description = row.FindElement(By.XPath("./td[5]")).Text;
+
+                        ProjectData project = new ProjectData(name)
+                        {
+                            Id = id
+                        };
+
+                        projectCash.Add(project);
+                    }
+                    catch (NoSuchElementException ex)
+                    {
+                        Console.WriteLine($"Ошибка при извлечении данных: {ex.Message}");
+                    }
+                }
+            }
+            return new List<ProjectData>(projectCash);
+        }
 
         public ProjectData TakeProject()
         {
-            WaitWhileProjectTableAppear();
+            //WaitWhileProjectTableAppear();
             IWebElement firstRow = driver.FindElement(
                 By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr[1]")
             );
@@ -106,11 +140,29 @@ namespace mantis_tests
             return new List<ProjectData>(projectCash);
         }
 
-        private List<ProjectData> projectCash = null;
-        private void WaitWhileProjectTableAppear()
+        public int GetProjectCount()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
-            wait.Until(d => d.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']")));
+            return driver.FindElements(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr")).Count;
+        }
+
+        private List<ProjectData> projectCash = null;
+        //private void WaitWhileProjectTableAppear()
+       // {
+           // WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+          //  wait.Until(d => d.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']")));
+        //}
+        public async Task<List<ProjectData>> GetProjectListAPI()
+        {
+            var projectList = new List<ProjectData>();
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            var projects = await client.mc_projects_get_user_accessibleAsync("administrator", "root");
+            foreach (var project in projects)
+            {
+                string projectName = project.name;
+
+                 projectList.Add(new ProjectData(projectName));
+            }
+            return new List<ProjectData>(projectList);
         }
     }
 }

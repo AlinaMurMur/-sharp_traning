@@ -25,5 +25,22 @@ namespace mantis_tests
             afterCreateProjectsList.Sort();
             NUnit.Framework.Assert.AreEqual(beforeDeletionjectsList, afterCreateProjectsList);
         }
+
+        [Test]
+        public async Task ProjectRemovalTestAPI()
+        {
+            app.Projects.ViewListInProject();
+
+            List<ProjectData> beforeDeletionjectsList = await app.Projects.GetProjectListAPI();
+
+            ProjectData projectToDelete = app.Projects.TakeProject();
+            app.Projects.RemoveProject(1);
+
+            List<ProjectData> afterCreateProjectsList = await app.Projects.GetProjectListAPI();
+            beforeDeletionjectsList.Remove(projectToDelete);
+            beforeDeletionjectsList.Sort();
+            afterCreateProjectsList.Sort();
+            NUnit.Framework.Assert.AreEqual(beforeDeletionjectsList, afterCreateProjectsList);
+        }
     }
 }
